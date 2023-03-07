@@ -187,7 +187,7 @@
             this.lblComSemDigital.AutoSize = true;
             this.lblComSemDigital.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblComSemDigital.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.lblComSemDigital.Location = new System.Drawing.Point(28, 5);
+            this.lblComSemDigital.Location = new System.Drawing.Point(38, 5);
             this.lblComSemDigital.Name = "lblComSemDigital";
             this.lblComSemDigital.Size = new System.Drawing.Size(171, 20);
             this.lblComSemDigital.TabIndex = 12;

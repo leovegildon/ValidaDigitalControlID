@@ -41,60 +41,65 @@ namespace ValidaDigital
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            String nomeUsuario = "", biometriaID = "";
-            //Logando o usuário
-            OracleConnection conn2 = new OracleConnection("Data Source=(DESCRIPTION="
-                                                        + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.11.0.30)(PORT=1521)))"
-                                                        + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=INTEGRACAOSP)));"
-                                                        + "User Id=pdvuser;Password=pdv1234");
+            if (campoFocado == "usuario") { maskedTextBox1.Focus(); campoFocado = "senha"; }
 
-            OracleCommand oCmd2 = new OracleCommand();
-            string query2 = "select " +
-                            "u.tsys_nome, " +
-                            "u.tsys_biometria_id " +
-                            "from tsys_usuario u " +
-                            "where u.tsys_usuario_pk = " + txtUsuario.Text + " " +
-                            "and u.tsys_senha = '" + maskedTextBox1.Text + "'";
-            oCmd2.CommandText = query2;
-            oCmd2.CommandType = CommandType.Text;
-            oCmd2.Connection = conn2;
-            conn2.Open();
-            OracleDataReader ler1 = oCmd2.ExecuteReader();
-            while (ler1.Read())
-            {
-                nomeUsuario = ler1.GetValue(0).ToString();
-                biometriaID = ler1.GetValue(1).ToString();
-            }
-
-            if(nomeUsuario == "")
-            {
-                MessageBox.Show("A combinação de usuário e senha fornecidos é inválida.", "Login Negado", 
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtUsuario.Text = "";
-                maskedTextBox1.Text = "";
-                txtUsuario.Focus();
-            }
             else
             {
-                lblNomeUsuario.Text += " " + nomeUsuario;
-                btnLogin.Enabled = false;
-            }
+                String nomeUsuario = "", biometriaID = "";
+                //Logando o usuário
+                OracleConnection conn2 = new OracleConnection("Data Source=(DESCRIPTION="
+                                                            + "(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=10.11.0.30)(PORT=1521)))"
+                                                            + "(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=INTEGRACAOSP)));"
+                                                            + "User Id=pdvuser;Password=pdv1234");
 
-            if(biometriaID != "" && nomeUsuario != "")
-            {
-                btnModificarDigital.Enabled = true;
-                lblComSemDigital.Text = "Usuário COM Digital";
-                lblComSemDigital.Visible = true;
-            }
-            else if(biometriaID == "" && nomeUsuario != "")
-            {
-                btnIncluirDigital.Enabled = true;
-                lblComSemDigital.Text = "Usuário SEM Digital";
-                lblComSemDigital.Visible = true;
-            }
+                OracleCommand oCmd2 = new OracleCommand();
+                string query2 = "select " +
+                                "u.tsys_nome, " +
+                                "u.tsys_biometria_id " +
+                                "from tsys_usuario u " +
+                                "where u.tsys_usuario_pk = " + txtUsuario.Text + " " +
+                                "and u.tsys_senha = '" + maskedTextBox1.Text + "'";
+                oCmd2.CommandText = query2;
+                oCmd2.CommandType = CommandType.Text;
+                oCmd2.Connection = conn2;
+                conn2.Open();
+                OracleDataReader ler1 = oCmd2.ExecuteReader();
+                while (ler1.Read())
+                {
+                    nomeUsuario = ler1.GetValue(0).ToString();
+                    biometriaID = ler1.GetValue(1).ToString();
+                }
 
-            conn2.Close();
+                if (nomeUsuario == "")
+                {
+                    MessageBox.Show("A combinação de usuário e senha fornecidos é inválida.", "Login Negado",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    txtUsuario.Text = "";
+                    maskedTextBox1.Text = "";
+                    txtUsuario.Focus();
+                    campoFocado = "usuario";
+                }
+                else
+                {
+                    lblNomeUsuario.Text += " " + nomeUsuario;
+                    btnLogin.Enabled = false;
+                }
 
+                if (biometriaID != "" && nomeUsuario != "")
+                {
+                    btnModificarDigital.Enabled = true;
+                    lblComSemDigital.Text = "Usuário COM Digital";
+                    lblComSemDigital.Visible = true;
+                }
+                else if (biometriaID == "" && nomeUsuario != "")
+                {
+                    btnIncluirDigital.Enabled = true;
+                    lblComSemDigital.Text = "Usuário SEM Digital";
+                    lblComSemDigital.Visible = true;
+                }
+
+                conn2.Close();
+            }
         }
 
         
